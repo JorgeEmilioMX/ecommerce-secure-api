@@ -2,19 +2,18 @@ const jwt = require('jsonwebtoken');
 const env = require('../config/env');
 
 const userAuth = (req, res, next) => {
-  const authHeader = req.headers.authorization;
+  // Acepta user-token (o x-user-token por compatibilidad)
+  const userToken = req.headers['user-token'] || req.headers['x-user-token'];
 
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+  if (!userToken) {
     return res.status(401).json({
       error: 'Unauthorized',
-      message: 'Token de sesión de usuario no proporcionado.'
+      message: 'Token de sesión de usuario no proporcionado en la cabecera (user-token).'
     });
   }
 
-  const token = authHeader.split(' ')[1];
-
   try {
-    const decoded = jwt.verify(token, env.JWT_USER_SECRET);
+    const decoded = jwt.verify(userToken, env.JWT_USER_SECRET);
     req.user = {
       id: decoded.sub,
       role: decoded.role

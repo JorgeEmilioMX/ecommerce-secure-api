@@ -7,7 +7,9 @@ const createOrder = async (req, res, next) => {
     const { products } = req.body;
     let totalAmount = 0;
     const orderProducts = [];
+    const productsToUpdate = [];
 
+    // 1. Validar todos los productos y existencias primero
     for (const item of products) {
       const dbProduct = await Product.findById(item.product);
       if (!dbProduct) {
@@ -33,11 +35,19 @@ const createOrder = async (req, res, next) => {
         unitPrice
       });
 
-      // Descontar stock del producto
-      dbProduct.stock -= item.quantity;
-      await dbProduct.save();
+      productsToUpdate.push({
+        productDoc: dbProduct,
+        quantity: item.quantity
+      });
     }
 
+    // 2. Si todo es válido, descontar stock en base de datos
+    for (const update of productsToUpdate) {
+      update.productDoc.stock -= update.quantity;
+      await update.productDoc.save();
+    }
+
+    // 3. Crear la orden
     const order = await Order.create({
       client: req.user.id,
       products: orderProducts,

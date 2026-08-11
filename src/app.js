@@ -2,6 +2,7 @@ const express = require('express');
 const helmet = require('helmet');
 const appAuth = require('./middlewares/appAuth');
 const errorHandler = require('./middlewares/errorHandler');
+const { generateAppToken } = require('./controllers/auth.controller');
 
 // Importar Rutas
 const authRoutes = require('./routes/auth.routes');
@@ -22,8 +23,8 @@ app.get('/', (req, res) => {
   res.json({ message: 'API E-Commerce Segura Activa' });
 });
 
-// Endpoint público para obtener el App Token
-app.use('/api/auth/app-token', authRoutes);
+// Endpoint público para obtener el App Token (bypasses appAuth)
+app.post('/api/auth/app-token', generateAppToken);
 
 // A partir de aquí, TODAS las rutas requieren App Token (x-app-token)
 app.use('/api', appAuth);

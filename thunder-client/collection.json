@@ -1,0 +1,77 @@
+{
+  "clientName": "Thunder Client",
+  "collectionName": "Ecommerce Secure API Collection",
+  "collectionId": "ecommerce-secure-api-collection",
+  "dateExported": "2026-08-10T00:00:00.000Z",
+  "version": "1.0",
+  "folders": [],
+  "requests": [
+    {
+      "_id": "req_1",
+      "colId": "ecommerce-secure-api-collection",
+      "containerId": "",
+      "name": "1. Generar App Token",
+      "url": "http://localhost:5100/api/auth/app-token",
+      "method": "POST",
+      "sortNum": 10000,
+      "created": "2026-08-10T00:00:00.000Z",
+      "modified": "2026-08-10T00:00:00.000Z",
+      "headers": [],
+      "body": {
+        "type": "json",
+        "raw": "{}"
+      }
+    },
+    {
+      "_id": "req_2",
+      "colId": "ecommerce-secure-api-collection",
+      "containerId": "",
+      "name": "2. Registrar Usuario Admin",
+      "url": "http://localhost:5100/api/auth/register",
+      "method": "POST",
+      "sortNum": 20000,
+      "created": "2026-08-10T00:00:00.000Z",
+      "modified": "2026-08-10T00:00:00.000Z",
+      "headers": [
+        { "name": "app-token", "value": "TU_APP_TOKEN_AQUI" }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"name\": \"Jorge Admin\",\n  \"email\": \"admin@universidad.edu\",\n  \"password\": \"SecurePass123!\",\n  \"role\": \"Administrator\"\n}"
+      }
+    },
+    {
+      "_id": "req_3",
+      "colId": "ecommerce-secure-api-collection",
+      "containerId": "",
+      "name": "3. Login Usuario",
+      "url": "http://localhost:5100/api/auth/login",
+      "method": "POST",
+      "sortNum": 30000,
+      "created": "2026-08-10T00:00:00.000Z",
+      "modified": "2026-08-10T00:00:00.000Z",
+      "headers": [
+        { "name": "app-token", "value": "TU_APP_TOKEN_AQUI" }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"email\": \"admin@universidad.edu\",\n  \"password\": \"SecurePass123!\"\n}"
+      }
+    },
+    {
+      "_id": "req_4",
+      "colId": "ecommerce-secure-api-collection",
+      "containerId": "",
+      "name": "4. Obtener Perfil de Usuario",
+      "url": "http://localhost:5100/api/auth/profile",
+      "method": "GET",
+      "sortNum": 40000,
+      "created": "2026-08-10T00:00:00.000Z",
+      "modified": "2026-08-10T00:00:00.000Z",
+      "headers": [
+        { "name": "app-token", "value": "TU_APP_TOKEN_AQUI" },
+        { "name": "user-token", "value": "TU_USER_TOKEN_AQUI" }
+      ]
+    }
+  ]
+}

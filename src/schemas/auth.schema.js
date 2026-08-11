@@ -20,7 +20,12 @@ const loginSchema = z.object({
   password: z.string().min(1, "La contraseña es obligatoria")
 });
 
+const updateProfileSchema = z.object({
+  name: z.string().trim().min(1, "El nombre es obligatorio")
+});
+
 module.exports = {
   registerSchema,
-  loginSchema
+  loginSchema,
+  updateProfileSchema
 };

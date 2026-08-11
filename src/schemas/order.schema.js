@@ -9,6 +9,13 @@ const createOrderSchema = z.object({
   products: z.array(orderItemSchema).min(1, "La orden debe contener al menos un producto")
 });
 
+const updateOrderStatusSchema = z.object({
+  status: z.enum(['Pending', 'Processing', 'Completed', 'Cancelled'], {
+    errorMap: () => ({ message: "Estado de orden inválido" })
+  })
+});
+
 module.exports = {
-  createOrderSchema
+  createOrderSchema,
+  updateOrderStatusSchema
 };
