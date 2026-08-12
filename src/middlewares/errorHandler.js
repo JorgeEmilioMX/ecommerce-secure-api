@@ -1,4 +1,12 @@
 const errorHandler = (err, req, res, next) => {
+  // Manejo de JSON malformado en el body (ej. comillas tipográficas o coma extra)
+  if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
+    return res.status(400).json({
+      error: 'JSON Inválido',
+      message: 'El cuerpo de la petición no es un JSON válido. Verifica que uses comillas rectas y no haya comas al final.'
+    });
+  }
+
   // Manejo de error por llave duplicada en MongoDB (ej. email o SKU duplicado)
   if (err.code === 11000) {
     const field = Object.keys(err.keyValue)[0];
